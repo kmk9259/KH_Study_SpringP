@@ -12,7 +12,7 @@ public interface MemberService {
 
 	Member loginMember(BCryptPasswordEncoder bCryptPasswordEncoder, Member m);
 
-	Member updateMember(Member m);
+	Member updateMember(Member m) throws Exception;
 
 	void deleteMember(String userId);
 

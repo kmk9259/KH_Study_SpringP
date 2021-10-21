@@ -16,7 +16,7 @@ import com.kh.spring.member.model.vo.Member;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-	private static final Logger logger = LoggerFactory.getLogger(TestInterceptor.class);
+	private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
 	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,

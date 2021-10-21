@@ -218,7 +218,7 @@ public class MemberController {
 	public String updateMember(@ModelAttribute Member m, @RequestParam("post") String post,
 								 @RequestParam("address1") String address1,
 								 @RequestParam("address2") String address2,
-								 HttpSession session, Model model) {
+								 HttpSession session, Model model) throws Exception {
 		m.setAddress(post+"/"+address1+"/"+address2);
 		
 		Member userInfo = memberService.updateMember(m);
