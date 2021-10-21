@@ -19,12 +19,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 
 	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
-		<!-- 암호화 전-->
-		select * from member where user_id=#{userId} and user_pwd=#{userPwd} and status='Y'
+		<!-- 암호화 전
+		select * from member where user_id=#{userId} and user_pwd=#{userPwd} and status='Y'-->
 		
-		<!-- 암호화 후 
-		select * from member
-		where user_id=#{userId} and status='Y'-->
+		<!-- 암호화 후 -->
+		select * from member where user_id=#{userId} and status='Y'
 		
 	</select>
 	
@@ -33,5 +32,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	values (#{userId},#{userPwd},#{userName},#{email},#{gender},#{age},#{phone},#{address},sysdate,sysdate,default)	
 	</insert>
 	
+	<update id="updateMember" parameterType="Member">
+	update member set
+	EMAIL = #{email}, GENDER = #{gender}, AGE = #{age}, PHONE = #{phone}, ADDRESS = #{address}, modify_DATE = sysdate
+	WHERE user_ID = #{userId} 	
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		update member set
+		STATUS = 'N'
+		WHERE user_ID = #{userId}
+	</delete>
 	
 </mapper>

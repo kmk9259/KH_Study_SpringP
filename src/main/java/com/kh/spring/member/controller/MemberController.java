@@ -3,14 +3,17 @@ package com.kh.spring.member.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.service.MemberService;
 import com.kh.spring.member.model.vo.Member;
@@ -18,6 +21,29 @@ import com.kh.spring.member.model.vo.Member;
 @SessionAttributes("loginUser")	//model 객체에 loginUser 라는 key 값으로 객체가 추가되면 자동으로 세션에 추가해주는 어노테이션
 @Controller	//bean scan을 통해서 자동으로 컨트롤러 타입으로 등록
 public class MemberController {
+	
+	/*
+	 * xml
+	 * 	error-page 
+	 * 	exception-type
+	 * controller
+	 * 	ExceptionHandler
+	 * 	ControllerAdvice + ExceptionHandler
+	 */
+	
+	/*@ExceptionHandler(value = BadSqlGrammarException.class)
+	public ModelAndView controllerExceptionHandler(Exception e) {
+		e.printStackTrace();		
+		return new ModelAndView("common/errorPageServer").addObject("msg", e.getMessage());
+	}*/
+	
+	/*@ExceptionHandler(value = Exception.class)
+	public ModelAndView controllerExceptionHandler(Exception e) {
+		
+		e.printStackTrace();
+		
+		return new ModelAndView("common/errorPage").addObject("msg", e.getMessage());
+	}*/
 	
 	@Autowired //빈 스캐닝을 통해 인터페이스(memberService)를 구현한 클래스(구현체) 중에 @Service로 등록되어 있는 빈(MemberServiceImpl)을 찾아서 자동으로 주입
 	private MemberService memberService;
@@ -124,7 +150,7 @@ public class MemberController {
 		return "redirect:/";
 	}*/
 	
-	/*3. @SessionAttributes 사용하기*/
+	/*3. @SessionAttributes 사용하기
 	@RequestMapping("login.me")
 	public String loginMember(Member m, Model model) {
 		
@@ -139,7 +165,7 @@ public class MemberController {
 			model.addAttribute("msg","로그인 실패");
 			return "common/errorPage";
 		}		 
-	}
+	}*/
 	
 	//로그아웃 변경 (@SessionAttributes)
 	@RequestMapping("logout.me")
@@ -170,5 +196,39 @@ public class MemberController {
 		session.setAttribute("msg", "회원가입 성공");
 		return "redirect:/";
 		
+	}
+	
+	@RequestMapping("login.me")
+	public String loginMember(Member m, Model model) {
+		
+		Member loginUser;
+		
+		loginUser = memberService.loginMember(bCryptPasswordEncoder,m);
+		System.out.println(loginUser);
+		model.addAttribute("loginUser", loginUser);	//model의 스코프는 request
+		return "redirect:/";
+	}
+	
+	@RequestMapping("myPage.me")
+	public String myPage() {
+		return "member/myPage";
+	}
+	
+	@RequestMapping("update.me")
+	public String updateMember(@ModelAttribute Member m, @RequestParam("post") String post,
+								 @RequestParam("address1") String address1,
+								 @RequestParam("address2") String address2,
+								 HttpSession session, Model model) {
+		m.setAddress(post+"/"+address1+"/"+address2);
+		
+		Member userInfo = memberService.updateMember(m);
+		model.addAttribute("loginUser", userInfo);
+		return "member/myPage";
+	}
+	
+	@RequestMapping("delete.me")
+	public String deleteMember(String userId) {
+		memberService.deleteMember(userId);
+		return "redirect:logout.me";
 	}
 }
