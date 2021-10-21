@@ -222,8 +222,25 @@ public class MemberController {
 		m.setAddress(post+"/"+address1+"/"+address2);
 		
 		Member userInfo = memberService.updateMember(m);
+		System.out.println("암호화전 : "+m.getUserPwd());
+		
 		model.addAttribute("loginUser", userInfo);
 		return "member/myPage";
+	}
+	@RequestMapping("updatePwd.me")
+	public String updatePwd(@ModelAttribute Member m, 
+								 HttpSession session, Model model) throws Exception {
+		
+		System.out.println("암호화전 : "+m.getUserPwd());
+		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+		System.out.println("암호화후 : "+encPwd);
+		m.setUserPwd(encPwd);
+		
+		Member userInfo = memberService.updatePwd(m);
+		System.out.println("변경 : "+m.getUserPwd());
+		
+		model.addAttribute("loginUser", userInfo);
+		return "redirect:/";
 	}
 	
 	@RequestMapping("delete.me")
@@ -231,4 +248,5 @@ public class MemberController {
 		memberService.deleteMember(userId);
 		return "redirect:logout.me";
 	}
+	
 }

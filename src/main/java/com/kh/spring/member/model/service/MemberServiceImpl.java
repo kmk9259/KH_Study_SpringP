@@ -56,8 +56,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Member updateMember(Member m) throws Exception {
 		int result = memberDao.updateMember(sqlSession,m);
-		//memberDao.insertMember(sqlSession, m);
-		if(result<0) {
+		
+		if(result>0) {
 			Member loginUser = memberDao.loginMember(sqlSession, m);
 			return loginUser;
 		}else {
@@ -73,6 +73,22 @@ public class MemberServiceImpl implements MemberService {
 		}	
 		
 	}
+
+	@Override
+	public Member updatePwd(Member m) throws Exception {
+		int result = memberDao.updatePwd(sqlSession,m);
+		
+		if(result>0) {
+			Member loginUser = memberDao.loginMember(sqlSession, m);
+			return loginUser;
+		}else {
+			throw new Exception("비밀번호 변경 실패");
+		}	
+	}
+
+	
+
+	
 
 	
 	

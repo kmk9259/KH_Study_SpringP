@@ -16,4 +16,8 @@ public interface MemberService {
 
 	void deleteMember(String userId);
 
+	Member updatePwd(Member m) throws Exception;
+
+	
+
 }

@@ -32,7 +32,7 @@
     }
     #header_1_left{width:30%;position:relative;}
     #header_1_center{width:20%;}
-    #header_1_right{width:40%;}
+    #header_1_right{width:50%;}
 
     #header_1_left>img{height:80%;position:absolute;margin:auto;top:0;bottom:0;right: 0;left:0;}
     #header_1_right{text-align: center; line-height:35px; font-size: 12px; text-indent: 35px;}
@@ -89,6 +89,7 @@
 	                <label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;
 	                <a href="myPage.me">마이페이지</a>
 	                <a href="logout.me">로그아웃</a>
+	                <a data-toggle="modal" data-target="#changePwdModal">비밀번호변경</a>	                
                 </c:if>  
                 
               
@@ -126,6 +127,33 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">로그인</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    <!-- 비밀번호변경 클릭 시 뜨는 모달  -->
+    <div class="modal fade" id="changePwdModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Change Password</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            </div>
+
+            <form action="updatePwd.me" method="post">
+                <!-- Modal Body -->
+                <div class="modal-body">   
+                	<input type="hidden" name="userId" value="${ loginUser.userId }">
+                    <label for="userPwd" class="mr-sm-2">변경할 Password:</label>
+                    <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="userPwd" name="userPwd">
+                </div>
+                
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">변경</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
                 </div>
             </form>
