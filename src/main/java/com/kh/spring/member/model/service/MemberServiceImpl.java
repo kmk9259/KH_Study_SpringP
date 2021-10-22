@@ -82,7 +82,7 @@ public class MemberServiceImpl implements MemberService {
 			Member loginUser = memberDao.loginMember(sqlSession, m);
 			return loginUser;
 		}else {
-			throw new Exception("비밀번호 변경 실패");
+			throw new CommException("비밀번호 변경 실패");
 		}	
 	}
 

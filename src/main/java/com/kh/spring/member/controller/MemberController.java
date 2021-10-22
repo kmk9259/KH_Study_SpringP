@@ -240,6 +240,7 @@ public class MemberController {
 		System.out.println("변경 : "+m.getUserPwd());
 		
 		model.addAttribute("loginUser", userInfo);
+		
 		return "redirect:/";
 	}
 	

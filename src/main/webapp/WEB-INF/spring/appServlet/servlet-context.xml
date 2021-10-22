@@ -42,6 +42,12 @@
 				id="loginInterceptor" class="com.kh.spring.common.interceptor.LoginInterceptor">
 			</beans:bean>
 		</interceptor>
+		<interceptor>
+			<mapping path="/list.bo"/>
+			<beans:bean id="blistInterceptor" class="com.kh.spring.common.interceptor.BlistInterceptor">
+			</beans:bean>
+		</interceptor>
+		
 	</interceptors>
 	
 	

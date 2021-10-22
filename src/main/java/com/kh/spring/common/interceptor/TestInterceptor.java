@@ -43,7 +43,5 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		logger.debug("============== afterCompletion end ===============");
 		super.afterCompletion(request, response, handler, ex);
-	}
-
-	
+	}	
 }
